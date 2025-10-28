@@ -7,27 +7,38 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('git clone') {
+
+        stage('Git Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/Behera873/node.js.git'
             }
         }
-        stage('Verify workspace') {
+
+        stage('Verify Workspace') {
             steps {
                 sh 'pwd'
                 sh 'ls -la'
             }
         }
-        stage('install dependency') {
+
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-        stage('start pm2') {
+
+        stage('Start with PM2') {
             steps {
-                sh 'pm2 delete my-app || true'
-                sh 'pm2 start index.js --name my-app'
-                sh 'pm2 save'
+                sh '''
+                    # Stop the existing app if running
+                    pm2 delete my-app || true
+
+                    # Start new app
+                    pm2 start index.js --name my-app
+
+                    # Save PM2 process list
+                    pm2 save
+                '''
             }
         }
     }
