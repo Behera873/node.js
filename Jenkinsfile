@@ -34,7 +34,7 @@ pipeline {
                     pm2 delete my-app || true
 
                     # Start new app
-                    pm2 start index.js --name my-app
+                    pm2 start app.js --name my-app
 
                     # Save PM2 process list
                     pm2 save
